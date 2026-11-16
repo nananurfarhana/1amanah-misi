@@ -1,0 +1,733 @@
+<!doctype html>
+<html lang="ms"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Algorithm Mission | ASK Tingkatan 1</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;700;800;900&family=Poppins:wght@600;700;800;900&display=swap');
+:root{--n:#14213d;--b:#3a86ff;--c:#4cc9f0;--y:#ffd166;--o:#ff7f50;--p:#9b5de5;--g:#70d6a5;--bg:#f6f8fc}
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#101a32;font-family:'Nunito Sans',sans-serif;color:#192642}#deck{width:100vw;height:100vh;position:relative;overflow:hidden;background:var(--bg)}
+.slide{position:absolute;inset:0;padding:5vh 6vw 9vh;display:flex;flex-direction:column;justify-content:center;opacity:0;visibility:hidden;transform:translateX(5%);transition:transform .58s cubic-bezier(.22,.8,.25,1),opacity .45s;overflow:auto;background:var(--bg)}
+.slide.active{opacity:1;visibility:visible;transform:translateX(0);z-index:2}.slide.left{transform:translateX(-5%);opacity:0}
+.dark{background:radial-gradient(circle at 80% 20%,#29477d,#172c50 42%,#101a32 80%);color:#fff}.bluebg{background:linear-gradient(135deg,#eaf5ff,#f8f4ff 60%,#fff7e8)}.warm{background:linear-gradient(135deg,#fff6e8,#fff 55%,#f1f5ff)}
+.eyebrow{font-size:clamp(11px,1vw,15px);letter-spacing:.15em;text-transform:uppercase;font-weight:900;color:var(--b);margin-bottom:1rem}.dark .eyebrow{color:var(--y)}
+h1,h2,h3{font-family:Poppins,sans-serif;line-height:1.08;margin:0 0 1rem}h1{font-size:clamp(42px,7vw,96px);font-weight:900;letter-spacing:-.04em}h1 span{color:var(--y);display:block}h2{font-size:clamp(30px,4vw,58px);font-weight:800;letter-spacing:-.03em}h3{font-size:clamp(18px,2vw,26px)}
+p{font-size:clamp(15px,1.5vw,21px);line-height:1.5;margin:.3rem 0 1rem}.lead{font-size:clamp(18px,2vw,27px);max-width:760px}.small{font-size:13px;color:#718099}.dark .small{color:#c5d2e6}
+.hero:after{content:"🧑‍🚀";position:absolute;right:9vw;top:48%;font-size:clamp(130px,20vw,270px);filter:drop-shadow(0 22px 20px #0004);animation:float 4s ease-in-out infinite}@keyframes float{50%{transform:translateY(-16px) rotate(3deg)}}
+@keyframes rise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}.active .anim{animation:rise .6s both}.active .anim:nth-child(2){animation-delay:.12s}.active .anim:nth-child(3){animation-delay:.22s}.active .anim:nth-child(4){animation-delay:.32s}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:center}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.panel{background:#fff;border:1px solid #e3eaf3;border-radius:22px;padding:clamp(15px,2vw,25px);box-shadow:0 14px 40px #20345b0c}.dark .panel{background:#ffffff12;border-color:#ffffff25;color:white;box-shadow:none}
+.tintb{background:#edf5ff}.tinty{background:#fff6dd}.tintp{background:#f3edff}.tintg{background:#eafaf2}.icon{font-size:34px;margin-bottom:12px}.tag{font-size:12px;font-weight:900;letter-spacing:.12em;color:#56708f}.cardtext{font-size:clamp(14px,1.2vw,17px);color:#64718a}.dark .cardtext{color:#d5e0f2}
+.pill{display:inline-block;background:#e9f2ff;color:#1c5fc0;border-radius:30px;padding:7px 12px;font-size:13px;font-weight:900}
+.callout{border-left:5px solid var(--b);background:#eaf3ff;border-radius:0 14px 14px 0;padding:16px 20px;font-size:clamp(16px,1.5vw,21px);font-weight:800}
+.code{background:#111c32;color:#e8f0ff;border-radius:20px;padding:22px 26px;font:clamp(13px,1.3vw,18px)/1.7 ui-monospace,Consolas,monospace;white-space:pre-wrap;box-shadow:0 18px 45px #10203a25}.kw{color:#ffd166;font-weight:900}.act{color:#9be7b2}
+.diagram{background:#fff;border:1px solid #e3eaf4;border-radius:22px;padding:10px;box-shadow:0 16px 40px #1b2f5010}.flow{width:100%;height:auto;max-height:64vh;display:block}.flow text{font:800 17px 'Nunito Sans';fill:#1a2944}.flow .d{fill:#fff3cb;stroke:#e2a928;stroke-width:2.5}.flow .a{fill:#e8f7ef;stroke:#49b77c;stroke-width:2.5}.flow .t{fill:#eaf2ff;stroke:#4786e8;stroke-width:2.5}.flow .p{fill:none;stroke:#51627d;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}.flow .branch{font-size:14px;fill:#245da9}.flow .trace{fill:none;stroke:#ff7f50;stroke-width:7;stroke-dasharray:9 10;opacity:0}.flow.tracing .trace{opacity:1;animation:dash 1s linear infinite}@keyframes dash{to{stroke-dashoffset:-38}}
+table{width:100%;border-collapse:separate;border-spacing:0;background:white;border-radius:15px;overflow:hidden;box-shadow:0 10px 28px #233b5d0d;font-size:clamp(13px,1.25vw,18px)}th{background:#182b4c;color:white;text-align:left;padding:13px 15px}td{padding:11px 15px;border-bottom:1px solid #e9eef5;font-weight:700}tr:last-child td{border:0}
+.controls{position:absolute;z-index:10;bottom:0;left:0;right:0;height:64px;background:#101a32ed;color:white;display:flex;align-items:center;gap:10px;padding:0 18px}.progress{position:absolute;top:0;left:0;right:0;height:4px;background:#ffffff30}.progress span{display:block;height:100%;background:linear-gradient(90deg,var(--c),var(--y));width:0;transition:width .4s}
+button{font:800 14px 'Nunito Sans';cursor:pointer}.ctrl{border:1px solid #ffffff35;background:#ffffff12;color:white;border-radius:12px;padding:10px 14px}.ctrl:hover{background:#ffffff2c}.ctrl:disabled{opacity:.3}.counter{font-weight:900;min-width:68px;text-align:center}.spacer{flex:1}.hint{font-size:12px;color:#c2cee2}
+.choice{display:block;width:100%;text-align:left;border:2px solid #e3eaf3;border-radius:14px;background:#fff;padding:13px 15px;margin:8px 0;font:800 15px 'Nunito Sans'}.choice:hover{border-color:var(--b)}.choice.correct{background:#eafaf2;border-color:#39ae78}.choice.wrong{background:#fff0ed;border-color:#ed7b64}.feedback{font-weight:900;min-height:35px;margin-top:10px}
+input{font:800 22px Poppins;width:130px;padding:10px;border:2px solid #dce6f2;border-radius:12px}.result{font:900 38px Poppins;color:#236e4d}
+@media(max-width:760px){.slide{padding:4vh 5vw 12vh}.grid4{grid-template-columns:1fr 1fr}.grid3{grid-template-columns:1fr}.grid2{grid-template-columns:1fr}.hero:after{opacity:.2;right:3vw}.hint{display:none}.flow text{font-size:21px}.code{font-size:12px}}
+</style>
+<style id="visual-refinement">
+:root{--n:#172b4d;--b:#2864c7;--c:#36a9bd;--y:#f5c451;--o:#f07855;--p:#8063bd;--g:#4ca77c;--bg:#fbf8f0}
+html,body{background:#172b4d}#deck{background:var(--bg)}
+.slide{background-color:var(--bg);background-image:radial-gradient(circle at 1px 1px,rgba(23,43,77,.05) 1px,transparent 1.3px);background-size:19px 19px;padding:5.2vh 7vw 9vh}
+.slide:before{content:"";position:absolute;right:-90px;top:-120px;width:300px;height:300px;border:30px solid rgba(54,169,189,.1);border-radius:50%;pointer-events:none}
+.slide:after{content:"";position:absolute;left:-90px;bottom:-140px;width:250px;height:250px;border:25px solid rgba(240,120,85,.08);border-radius:38%;transform:rotate(24deg);pointer-events:none}
+.slide>*{position:relative;z-index:1}
+.slide.dark{background-color:#172b4d;background-image:radial-gradient(circle at 80% 22%,rgba(54,169,189,.17),transparent 28%),radial-gradient(circle at 15% 88%,rgba(128,99,189,.16),transparent 30%),linear-gradient(135deg,#172b4d,#10203a)}
+.slide.dark:before{border-color:rgba(245,196,81,.13)}.slide.dark:after{border-color:rgba(54,169,189,.13)}
+.slide.bluebg{background-color:#eef5fb;background-image:radial-gradient(circle at 1px 1px,rgba(40,100,199,.07) 1px,transparent 1.3px);background-size:18px 18px}
+.slide.warm{background-color:#fff8e9;background-image:radial-gradient(circle at 1px 1px,rgba(240,120,85,.07) 1px,transparent 1.3px);background-size:18px 18px}
+.eyebrow{font-family:Poppins,sans-serif;font-size:clamp(10px,.92vw,13px);letter-spacing:.13em;font-weight:800;color:#2864c7}
+h2{position:relative;padding-bottom:13px}h2:after{content:"";position:absolute;left:0;bottom:0;width:62px;height:5px;border-radius:5px;background:var(--o)}.dark h2:after{background:var(--y)}
+p{font-weight:600}.panel{border:1px solid rgba(23,43,77,.1);border-radius:18px;box-shadow:0 5px 0 rgba(23,43,77,.07),0 12px 24px rgba(23,43,77,.045);transition:transform .22s,box-shadow .22s}
+.panel:hover{transform:translateY(-4px);box-shadow:0 8px 0 rgba(23,43,77,.07),0 18px 30px rgba(23,43,77,.09)}
+.panel.tintb{background:#e8f1ff}.panel.tinty{background:#fff1c9}.panel.tintp{background:#f0eaff}.panel.tintg{background:#e5f5e9}
+.icon{display:inline-grid;place-items:center;width:54px;height:54px;border-radius:16px;background:#fff;box-shadow:0 4px 0 rgba(23,43,77,.08);font-size:29px}
+.pill{font-family:Poppins,sans-serif;letter-spacing:.025em;background:#e4efff;color:#204f9b;border:1px solid rgba(40,100,199,.12)}
+.callout{background:#e8f1ff;border-left-color:var(--o);box-shadow:0 4px 0 rgba(23,43,77,.05)}
+.code{border:2px solid #2b4163;box-shadow:0 7px 0 #0b1629,0 18px 34px rgba(11,22,41,.18);border-radius:17px}
+.diagram{border:2px solid #e1e8ef;border-radius:18px;box-shadow:0 6px 0 rgba(23,43,77,.06),0 16px 28px rgba(23,43,77,.06)}
+.flow .d{fill:#fff0bd;stroke:#d59b24}.flow .a{fill:#e1f4e9;stroke:#369765}.flow .t{fill:#e5efff;stroke:#3976cf}.flow .p{stroke:#4b5d77}
+table{border:1px solid #e2e8ef;box-shadow:0 6px 0 rgba(23,43,77,.06),0 12px 24px rgba(23,43,77,.05)}
+th{background:#20395f;font-family:Poppins,sans-serif;font-size:.92em}td{background:rgba(255,255,255,.94)}tr:nth-child(even) td{background:#f4f7fb}
+.controls{height:68px;background:#142541;border-top:1px solid rgba(255,255,255,.15)}
+.ctrl{font-family:Poppins,sans-serif;font-size:12px;border-radius:10px;transition:transform .16s}.ctrl:hover{transform:translateY(-2px)}
+.choice{border-radius:12px;border-color:#dce5ef;box-shadow:0 3px 0 rgba(23,43,77,.06);transition:transform .16s}.choice:hover{transform:translateY(-2px)}
+.hero h1{line-height:.98;text-shadow:0 5px 0 rgba(0,0,0,.1)}.hero .pill{background:#fff0bd;color:#21395d;border:0;box-shadow:0 5px 0 rgba(0,0,0,.12)}
+.hero:after{filter:drop-shadow(0 18px 0 rgba(0,0,0,.12));animation:heroBob 3.6s ease-in-out infinite}
+@keyframes heroBob{0%,100%{transform:translateY(0) rotate(-5deg)}50%{transform:translateY(-18px) rotate(4deg)}}
+.active .anim{animation:enterFriendly .58s cubic-bezier(.2,.8,.2,1) both}.active .anim:nth-child(2){animation-delay:.09s}.active .anim:nth-child(3){animation-delay:.18s}.active .anim:nth-child(4){animation-delay:.27s}.active .anim:nth-child(5){animation-delay:.36s}
+@keyframes enterFriendly{0%{opacity:0;transform:translateY(18px) scale(.985)}100%{opacity:1;transform:none}}
+.flow.tracing .d{animation:decisionPulse .9s ease-in-out infinite alternate}@keyframes decisionPulse{to{filter:drop-shadow(0 0 8px rgba(245,196,81,.8));stroke-width:4}}
+@media(max-width:760px){.slide{padding:4vh 5vw 12vh}.panel:hover{transform:none}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+</style>
+
+
+<style id="motion-graphics-upgrade">
+/* Motion graphics layer: playful, polished classroom presentation */
+.slide{isolation:isolate}
+.slide:before,.slide:after{z-index:0}
+.slide:not(.dark) .eyebrow:before{
+  content:"✦";display:inline-block;margin-right:10px;color:#f07855;
+  animation:twinkle 2.2s ease-in-out infinite
+}
+.hero{overflow:hidden}
+.hero:before{
+  content:"";position:absolute!important;z-index:0!important;
+  width:min(42vw,520px);height:min(42vw,520px);right:7vw;top:13%;
+  border:2px dashed rgba(255,255,255,.22)!important;border-radius:50%;
+  animation:orbitSpin 28s linear infinite
+}
+.hero:after{z-index:1!important}
+.hero .anim{z-index:2}
+.hero .pill{animation:badgeGlow 2.8s ease-in-out infinite}
+.hero h1 span{animation:titleShine 4s ease-in-out infinite}
+@keyframes orbitSpin{to{transform:rotate(360deg)}}
+@keyframes twinkle{0%,100%{opacity:.45;transform:scale(.8) rotate(0)}50%{opacity:1;transform:scale(1.25) rotate(35deg)}}
+@keyframes badgeGlow{0%,100%{box-shadow:0 5px 0 rgba(0,0,0,.12),0 0 0 0 rgba(245,196,81,0)}50%{box-shadow:0 5px 0 rgba(0,0,0,.12),0 0 0 9px rgba(245,196,81,.13)}}
+@keyframes titleShine{0%,100%{filter:drop-shadow(0 0 0 rgba(245,196,81,0))}50%{filter:drop-shadow(0 0 15px rgba(245,196,81,.35))}}
+/* floating geometric ornaments */
+.slide:not(.hero):not(.dark) .eyebrow:after{
+ content:"";display:inline-block;width:38px;height:5px;margin-left:12px;
+ border-radius:8px;background:linear-gradient(90deg,#36a9bd,#f5c451,#f07855);
+ vertical-align:middle;background-size:200% 100%;animation:gradientRun 3s linear infinite
+}
+@keyframes gradientRun{to{background-position:200% 0}}
+.icon{position:relative;animation:iconHover 3.4s ease-in-out infinite}
+.panel:nth-child(2n) .icon{animation-delay:.5s}
+.panel:nth-child(3n) .icon{animation-delay:1s}
+@keyframes iconHover{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-5px) rotate(-3deg)}}
+.panel{position:relative;overflow:hidden}
+.panel:after{
+ content:"";position:absolute;right:-28px;top:-32px;width:88px;height:88px;
+ border:12px solid rgba(54,169,189,.09);border-radius:26px;transform:rotate(25deg);
+ pointer-events:none
+}
+.panel.tinty:after{border-color:rgba(240,120,85,.12)}
+.panel.tintp:after{border-color:rgba(128,99,189,.12)}
+.panel.tintg:after{border-color:rgba(76,167,124,.12)}
+/* diagram and code reveal */
+.diagram{position:relative;overflow:hidden}
+.diagram:after{
+ content:"";position:absolute;inset:0;pointer-events:none;
+ background:linear-gradient(110deg,transparent 35%,rgba(255,255,255,.48) 50%,transparent 65%);
+ transform:translateX(-120%);animation:diagramSweep 5s ease-in-out infinite
+}
+@keyframes diagramSweep{0%,55%{transform:translateX(-120%)}85%,100%{transform:translateX(120%)}}
+.flow .d{transform-box:fill-box;transform-origin:center;animation:nodeBreathe 3s ease-in-out infinite}
+.flow .d:nth-of-type(2){animation-delay:.35s}.flow .d:nth-of-type(3){animation-delay:.7s}
+@keyframes nodeBreathe{0%,100%{filter:drop-shadow(0 0 0 rgba(245,196,81,0))}50%{filter:drop-shadow(0 4px 7px rgba(245,196,81,.38))}}
+.code{position:relative;overflow:hidden}
+.code:after{content:"";position:absolute;top:0;left:-40%;width:25%;height:100%;background:linear-gradient(90deg,transparent,#ffffff0d,transparent);transform:skewX(-20deg);animation:codeScan 6s ease-in-out infinite}
+@keyframes codeScan{0%,65%{left:-40%}100%{left:130%}}
+/* slide transition polish */
+.slide.active .diagram,.slide.active .code,.slide.active table{animation:objectPop .65s cubic-bezier(.2,.8,.2,1) both}
+@keyframes objectPop{from{opacity:.4;transform:translateY(12px) scale(.985)}to{opacity:1;transform:none}}
+.controls .progress span{background-size:200% 100%;animation:gradientRun 3s linear infinite}
+@media(prefers-reduced-motion:reduce){
+ .hero:before,.hero:after,.icon,.panel:after,.diagram:after,.code:after,.flow .d{animation:none!important}
+}
+</style>
+
+
+<style id="roblox-inspired-avatars">
+.avatar-stage{position:absolute;right:7vw;bottom:9vh;width:clamp(155px,22vw,290px);height:clamp(185px,27vw,345px);z-index:3;pointer-events:none;filter:drop-shadow(0 18px 14px #07152b55);animation:avatarEnter 1s cubic-bezier(.18,.8,.25,1) both}
+.avatar-stage svg{width:100%;height:100%;overflow:visible}
+.avatar-stage:before{content:"";position:absolute;z-index:-1;inset:14% 3% 4%;border-radius:38% 45% 34% 48%;background:linear-gradient(145deg,#ffffff33,#54c8e833);border:2px solid #ffffff35;transform:rotate(8deg);animation:avatarFloat 4s ease-in-out infinite}
+.avatar-stage:after{content:"LEVEL UP!";position:absolute;right:-13%;top:5%;padding:7px 12px;border-radius:12px;background:#ffd166;color:#27334e;font:900 11px Poppins,sans-serif;box-shadow:0 4px 0 #c28d32;transform:rotate(8deg);animation:tagBounce 2.5s ease-in-out infinite}
+.avatar-mini{width:100px;height:125px;display:block;margin:8px auto 0;filter:drop-shadow(0 8px 5px #17233b22);animation:avatarFloat 3.5s ease-in-out infinite}
+.avatar-mini svg{width:100%;height:100%;overflow:visible}
+.avatar-stand{display:flex;justify-content:center;align-items:center;min-height:130px;border-radius:18px;background:linear-gradient(145deg,#ffffffb8,#dcecff);margin:10px 0 14px;position:relative;overflow:hidden}
+.avatar-stand:before{content:"";position:absolute;width:145px;height:145px;border-radius:50%;background:#ffffff70;top:-48px;right:-28px}
+.mission-avatar{position:absolute;right:4vw;top:12vh;width:105px;height:135px;z-index:2;pointer-events:none}
+.mission-avatar svg{width:100%;height:100%;filter:drop-shadow(0 9px 7px #17233b33)}
+@keyframes avatarEnter{from{opacity:0;transform:translateY(45px) scale(.75) rotate(8deg)}to{opacity:1;transform:translateY(0) scale(1) rotate(0)}}
+@keyframes avatarFloat{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-10px) rotate(2deg)}}
+@keyframes tagBounce{0%,100%{transform:translateY(0) rotate(8deg)}50%{transform:translateY(-7px) rotate(4deg)}}
+@media(max-width:700px){.avatar-stage{right:2vw;bottom:8vh;width:125px;height:160px;opacity:.92}.mission-avatar{right:2vw;top:9vh;width:72px;height:92px}.avatar-mini{width:76px;height:98px}}
+@media(prefers-reduced-motion:reduce){.avatar-stage,.avatar-stage:before,.avatar-stage:after,.avatar-mini{animation:none!important}}
+</style>
+
+
+<style id="full-roblox-world-redesign">
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap');
+:root{
+ --n:#18345d;--b:#168cf0;--c:#31c6d8;--y:#ffcf38;--o:#ff8057;
+ --p:#a77bff;--g:#48d68b;--bg:#dff4ff;
+ --ink:#17345b;--shadow:#17345b;
+}
+*{box-sizing:border-box}
+html,body{background:#142d50!important;font-family:'Nunito',sans-serif!important}
+#deck{
+ background:linear-gradient(180deg,#71d2ff 0%,#bceeff 58%,#e7faff 100%)!important;
+}
+.slide{
+ padding:5vh 7vw 10vh!important;
+ color:var(--ink)!important;
+ background:
+   radial-gradient(ellipse at 13% 16%,#fff9 0 3px,transparent 4px),
+   radial-gradient(ellipse at 82% 23%,#fff9 0 4px,transparent 5px),
+   radial-gradient(ellipse at 70% 78%,#ffffffa8 0 3px,transparent 4px),
+   linear-gradient(180deg,#83d8ff 0%,#c8f0ff 58%,#effcff 100%)!important;
+ background-size:170px 150px,220px 180px,190px 160px,auto!important;
+}
+.slide:before{
+ content:"";position:absolute!important;z-index:0!important;right:-4vw;top:10vh;
+ width:clamp(150px,24vw,330px);height:clamp(150px,24vw,330px);
+ border:0!important;border-radius:50%!important;
+ background:linear-gradient(145deg,#fff9,#ffffff30)!important;
+ box-shadow:inset -12px -15px 0 #4bb9e52b,0 18px 0 #318bc52a!important;
+}
+.slide:after{
+ content:"";position:absolute!important;z-index:0!important;left:-7vw;bottom:-16vh;
+ width:clamp(180px,28vw,390px);height:clamp(100px,17vw,230px);
+ border:0!important;border-radius:50% 50% 0 0!important;
+ background:linear-gradient(180deg,#7bdb9a,#3dbb79)!important;
+ box-shadow:0 -12px 0 #b2f0a5!important;transform:rotate(-8deg)!important;
+}
+.slide>*{position:relative;z-index:2}
+.slide.dark,.slide.bluebg,.slide.warm{
+ color:#17345b!important;
+ background:
+  radial-gradient(circle at 12% 18%,#ffffffb8 0 4px,transparent 5px),
+  radial-gradient(circle at 80% 12%,#ffffffa8 0 5px,transparent 6px),
+  linear-gradient(180deg,#69caff 0%,#b9edff 60%,#eafaff 100%)!important;
+}
+.slide.dark .eyebrow,.slide .eyebrow{
+ display:inline-flex;align-items:center;gap:9px;width:max-content;
+ padding:8px 15px;border-radius:999px;background:#fff;
+ color:#1475c9!important;font:900 clamp(10px,.9vw,13px) 'Nunito',sans-serif!important;
+ letter-spacing:.1em;box-shadow:0 4px 0 #b4d8eb,0 8px 15px #28618c1a;
+}
+h1,h2,h3{
+ font-family:'Fredoka','Nunito',sans-serif!important;
+ color:#17345b!important;letter-spacing:-.025em!important;
+ text-shadow:0 3px 0 #ffffffa8;
+}
+h1{font-size:clamp(46px,7.3vw,100px)!important;line-height:.98!important}
+h1 span{color:#ff9c24!important;text-shadow:0 4px 0 #d9771c,0 7px 0 #ffffffa8!important}
+h2{font-size:clamp(32px,4.1vw,60px)!important;padding:0 0 12px!important}
+h2:after{height:8px!important;width:75px!important;border-radius:99px!important;background:linear-gradient(90deg,#ffbd2e,#ff8057)!important;box-shadow:0 3px 0 #d66b37}
+h3{font-size:clamp(20px,2.1vw,29px)!important}
+p{color:#365576!important;font-weight:800!important;line-height:1.48!important}
+.lead{color:#254b70!important;font-size:clamp(18px,2vw,27px)!important}
+.small,.cardtext{color:#55718d!important}
+.panel{
+ position:relative!important;overflow:hidden!important;
+ border:3px solid #fff!important;border-radius:24px!important;
+ background:linear-gradient(145deg,#fff,#f3fbff)!important;
+ box-shadow:0 7px 0 #8bb9d2,0 12px 0 #3c84ad24,0 18px 30px #1d5b8226!important;
+ padding:clamp(16px,2vw,26px)!important;
+ transition:transform .18s ease,box-shadow .18s ease!important;
+}
+.panel:before{
+ content:"";position:absolute;left:13px;top:11px;width:8px;height:8px;
+ border-radius:50%;background:#c4e9fa;box-shadow:0 0 0 2px #e8f8ff;
+}
+.panel:after{
+ content:"";position:absolute;right:-23px;bottom:-32px;width:90px;height:90px;
+ border:12px solid #56b9e51c;border-radius:24px;transform:rotate(28deg);
+ pointer-events:none;
+}
+.panel:hover{transform:translateY(-5px)!important;box-shadow:0 11px 0 #8bb9d2,0 18px 28px #1d5b8230!important}
+.panel.tintb{background:linear-gradient(145deg,#fff,#e6f4ff)!important}
+.panel.tinty{background:linear-gradient(145deg,#fff,#fff4c9)!important}
+.panel.tintp{background:linear-gradient(145deg,#fff,#f1eaff)!important}
+.panel.tintg{background:linear-gradient(145deg,#fff,#e4ffed)!important}
+.icon{
+ display:inline-grid!important;place-items:center!important;
+ width:58px;height:58px;border-radius:18px!important;
+ background:linear-gradient(145deg,#fff,#e5f5ff)!important;
+ border:2px solid #fff!important;box-shadow:0 5px 0 #b3d6e9!important;
+ font-size:32px!important;
+}
+.pill{
+ background:linear-gradient(180deg,#ffe77a,#ffc52e)!important;color:#62420a!important;
+ border:2px solid #fff!important;border-radius:12px!important;
+ padding:8px 14px!important;font:900 13px 'Nunito',sans-serif!important;
+ box-shadow:0 4px 0 #d99b1c!important;
+}
+.tag{color:#2584bd!important;font-weight:1000!important}
+.callout{
+ border:3px solid #fff!important;border-left:9px solid #ff9c24!important;
+ border-radius:18px!important;background:linear-gradient(120deg,#fff4c6,#fff)!important;
+ box-shadow:0 6px 0 #e9c46d!important;color:#24476b!important;
+}
+.code{
+ border:4px solid #42678b!important;border-radius:22px!important;
+ background:linear-gradient(145deg,#1e3558,#102744)!important;
+ color:#e8f8ff!important;box-shadow:0 8px 0 #10213b,0 17px 28px #15395835!important;
+}
+.kw{color:#ffdb58!important}.act{color:#77f0a8!important}
+.diagram{
+ border:4px solid #fff!important;border-radius:23px!important;
+ background:linear-gradient(145deg,#fff,#eaf8ff)!important;
+ box-shadow:0 7px 0 #8bb9d2,0 15px 28px #1d5b8224!important;
+}
+.flow .d{fill:#fff0a8!important;stroke:#e8a91d!important;stroke-width:4!important}
+.flow .a{fill:#bff6d1!important;stroke:#2cae70!important;stroke-width:4!important}
+.flow .t{fill:#c8e8ff!important;stroke:#268bd2!important;stroke-width:4!important}
+.flow .p{stroke:#315777!important;stroke-width:4!important}
+.flow text{font-family:'Nunito',sans-serif!important;font-weight:1000!important;fill:#17345b!important}
+.flow .branch{fill:#1676bd!important}
+table{
+ border:4px solid #fff!important;border-radius:18px!important;
+ box-shadow:0 7px 0 #8bb9d2,0 14px 24px #1d5b8224!important;
+}
+th{background:linear-gradient(180deg,#268fda,#1769b0)!important;color:#fff!important;font-family:'Fredoka',sans-serif!important;font-size:1.04em!important}
+td{color:#274a6b!important;background:#fff!important;border-bottom:2px solid #e5f2f9!important}
+tr:nth-child(even) td{background:#edf8ff!important}
+.controls{
+ height:72px!important;background:linear-gradient(180deg,#254c78,#153253)!important;
+ border-top:4px solid #78c8ee!important;box-shadow:0 -7px 0 #ffffff45!important;
+ padding:0 22px!important;
+}
+.progress{height:7px!important;background:#ffffff40!important}
+.progress span{background:linear-gradient(90deg,#52e4a0,#ffda4e,#ff965b)!important}
+.ctrl{
+ border:2px solid #ffffff65!important;border-radius:13px!important;
+ background:linear-gradient(180deg,#3d79ad,#24527e)!important;
+ color:#fff!important;font:900 13px 'Nunito',sans-serif!important;
+ box-shadow:0 4px 0 #102744!important;padding:9px 15px!important;
+}
+.ctrl:hover{background:linear-gradient(180deg,#5599ce,#2d6596)!important;transform:translateY(-2px)}
+.ctrl:active{transform:translateY(2px);box-shadow:0 1px 0 #102744!important}
+.counter{color:#fff!important;font-family:'Fredoka',sans-serif!important}
+.hint{color:#d2efff!important}
+.choice{
+ border:3px solid #fff!important;border-radius:16px!important;
+ background:linear-gradient(180deg,#fff,#eaf7ff)!important;color:#24496d!important;
+ box-shadow:0 5px 0 #a4cce1!important;font-weight:1000!important;
+}
+.choice:hover{border-color:#ffe27a!important;transform:translateY(-3px)!important}
+.choice.correct{background:#c9f8d9!important;border-color:#fff!important;box-shadow:0 5px 0 #55bd7d!important}
+.choice.wrong{background:#ffe0d7!important;border-color:#fff!important;box-shadow:0 5px 0 #e58b75!important}
+input{border:3px solid #fff!important;box-shadow:0 5px 0 #a4cce1!important}
+.result{color:#1b9c60!important}
+.hero{justify-content:center!important}
+.hero:after{content:""!important}
+.hero .lead{max-width:680px}
+.avatar-stage{
+ right:8vw!important;bottom:12vh!important;width:clamp(190px,25vw,340px)!important;
+ height:clamp(230px,32vw,410px)!important;
+ filter:drop-shadow(0 18px 0 #24517b35)!important;
+}
+.avatar-stage:before{
+ background:linear-gradient(145deg,#ffffffb8,#68d8ff55)!important;
+ border:5px solid #fff!important;box-shadow:0 9px 0 #7db8d4!important;
+}
+.avatar-stage:after{
+ content:"READY PLAYER 1"!important;right:-8%!important;top:0!important;
+ background:linear-gradient(180deg,#ffe97c,#ffc12d)!important;
+ border:3px solid #fff!important;border-radius:13px!important;
+ box-shadow:0 5px 0 #d89a1b!important;font-size:12px!important;
+}
+.mission-avatar{filter:drop-shadow(0 8px 0 #24517b25)!important}
+.avatar-stand{
+ background:linear-gradient(145deg,#dff5ff,#fff)!important;
+ border:3px solid #fff!important;box-shadow:0 5px 0 #a4cce1!important;
+}
+.avatar-stand:before{background:#8ddfff55!important}
+.avatar-mini{filter:drop-shadow(0 7px 0 #28537b24)!important}
+@keyframes gamePop{0%{opacity:0;transform:translateY(24px) scale(.94)}70%{transform:translateY(-4px) scale(1.015)}100%{opacity:1;transform:none}}
+.active .anim{animation:gamePop .62s cubic-bezier(.2,.85,.25,1) both!important}
+.active .anim:nth-child(2){animation-delay:.08s!important}
+.active .anim:nth-child(3){animation-delay:.16s!important}
+.active .anim:nth-child(4){animation-delay:.24s!important}
+.active .anim:nth-child(5){animation-delay:.32s!important}
+@media(max-width:760px){
+ .slide{padding:4vh 5vw 13vh!important}
+ .avatar-stage{right:1vw!important;bottom:9vh!important;width:125px!important;height:160px!important;opacity:.94}
+ .mission-avatar{right:1vw!important;top:7vh!important;width:70px!important;height:92px!important}
+ .panel{border-radius:18px!important}
+ .controls{height:65px!important;padding:0 10px!important}
+ .ctrl{padding:8px 10px!important;font-size:11px!important}
+}
+@media(prefers-reduced-motion:reduce){
+ .avatar-stage,.avatar-stage:before,.avatar-stage:after,.avatar-mini,.panel,.active .anim{animation:none!important;transition:none!important}
+}
+</style>
+
+
+<style id="typography-maximize-consistency">
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@500;600;700;800;900;1000&display=swap');
+:root{--type-main:'Nunito',Arial,sans-serif}
+html,body,#deck,.slide,.slide *{
+ font-family:var(--type-main)!important;
+ font-synthesis:none!important;
+ font-kerning:normal;
+}
+h1,h2,h3,h4,h5,h6,
+.title,.eyebrow,.pill,.tag,.lead,.small,.cardtext,
+button,.ctrl,.choice,input,textarea,select,
+table,thead,tbody,tr,th,td,
+.code,.code *,svg text,.counter,.hint{
+ font-family:var(--type-main)!important;
+}
+h1,h2,h3,h4,h5,h6{
+ font-weight:1000!important;
+ letter-spacing:-.035em!important;
+ line-height:1.08!important;
+}
+h1{font-size:clamp(44px,7vw,88px)!important}
+h2{font-size:clamp(32px,4.2vw,54px)!important}
+h3{font-size:clamp(22px,2.5vw,31px)!important}
+p,.lead,.cardtext,.small,li,label{
+ font-weight:700!important;
+ line-height:1.55!important;
+ letter-spacing:0!important;
+}
+.lead{font-size:clamp(17px,1.8vw,23px)!important}
+.eyebrow,.tag,.pill,.ctrl,.choice,button,th{
+ font-weight:900!important;letter-spacing:.025em!important;
+}
+.panel h3,.panel h4{font-weight:1000!important}
+.code,.code *,.flow text,svg text{
+ font-family:var(--type-main)!important;
+}
+.code{font-size:clamp(13px,1.2vw,16px)!important;line-height:1.65!important}
+th,td{font-size:clamp(13px,1.25vw,16px)!important;line-height:1.45!important}
+.ctrl,.choice,button{font-size:14px!important;line-height:1.2!important}
+.counter{font-size:14px!important;font-weight:900!important}
+input,textarea,select{font-size:16px!important;font-weight:800!important}
+.slide{font-size:clamp(15px,1.35vw,18px)!important}
+.slide .panel p{font-size:clamp(14px,1.25vw,17px)!important}
+.slide .eyebrow{font-size:12px!important}
+.slide .pill{font-size:12px!important}
+.slide .small{font-size:13px!important}
+.slide .hint{font-size:12px!important}
+.slide h1 span{font-family:var(--type-main)!important;font-weight:1000!important}
+button:focus-visible,.ctrl:focus-visible,.choice:focus-visible,input:focus-visible{
+ outline:4px solid #ffcf38!important;outline-offset:3px!important
+}
+@media(max-width:760px){
+ h1{font-size:clamp(38px,10vw,62px)!important}
+ h2{font-size:clamp(28px,7vw,40px)!important}
+ h3{font-size:clamp(19px,5vw,25px)!important}
+ .lead{font-size:16px!important}
+ .panel p{font-size:14px!important}
+ th,td{font-size:12px!important}
+}
+</style>
+
+
+<style id="real-artwork-icon-system">
+.hero:after{content:none!important;display:none!important}
+.icon{font-size:0!important}
+.art-icon{display:inline-flex;align-items:center;justify-content:center;vertical-align:middle;width:1.55em;height:1.55em;margin:0 .12em;flex:0 0 auto}
+.art-icon svg{width:100%;height:100%;display:block;overflow:visible}
+.art-icon.large{width:2.25em;height:2.25em}
+.inline-art{display:inline-flex;align-items:center;gap:.35em}
+.art-icon svg .stroke{stroke:#21466b;stroke-width:3.5;stroke-linecap:round;stroke-linejoin:round;fill:none}
+.art-icon svg .blue{fill:#2d91df}.art-icon svg .yellow{fill:#ffd34e}.art-icon svg .green{fill:#55c98a}
+.art-icon svg .coral{fill:#ff8764}.art-icon svg .purple{fill:#a47be8}.art-icon svg .white{fill:#fff}
+.art-icon svg .skin{fill:#e9b184}.art-icon svg .dark{fill:#28405f}
+</style>
+
+
+<style id="icon-containment-fix">
+/* Keep every illustration strictly inside its assigned icon slot */
+.icon,.avatar-stand{
+  box-sizing:border-box!important;
+  width:64px!important;height:64px!important;
+  min-width:64px!important;min-height:64px!important;
+  max-width:64px!important;max-height:64px!important;
+  padding:5px!important;margin:0 0 12px 0!important;
+  display:inline-flex!important;align-items:center!important;justify-content:center!important;
+  overflow:hidden!important;position:relative!important;flex:0 0 64px!important;
+  border-radius:18px!important;
+}
+.icon .art-icon,.icon>span,.avatar-stand .avatar-mini{
+  box-sizing:border-box!important;
+  display:flex!important;align-items:center!important;justify-content:center!important;
+  width:100%!important;height:100%!important;max-width:100%!important;max-height:100%!important;
+  margin:0!important;padding:0!important;overflow:hidden!important;
+}
+.icon svg,.icon>svg,.icon .art-icon svg,
+.avatar-stand svg,.avatar-stand .avatar-mini svg{
+  display:block!important;width:100%!important;height:100%!important;
+  max-width:100%!important;max-height:100%!important;
+  overflow:hidden!important;flex:0 0 auto!important;
+}
+.art-icon{
+ box-sizing:border-box!important;display:inline-flex!important;
+ width:1.45em!important;height:1.45em!important;
+ max-width:1.45em!important;max-height:1.45em!important;
+ vertical-align:-.28em!important;overflow:hidden!important;
+}
+.art-icon svg{width:100%!important;height:100%!important;overflow:hidden!important}
+.avatar-mini{width:100%!important;height:100%!important;max-width:100%!important;max-height:100%!important;overflow:hidden!important}
+.avatar-mini svg{width:100%!important;height:100%!important;max-width:100%!important;max-height:100%!important}
+.mission-avatar{width:94px!important;height:118px!important;max-width:94px!important;max-height:118px!important;overflow:hidden!important}
+.mission-avatar svg{width:100%!important;height:100%!important;max-width:100%!important;max-height:100%!important;display:block!important}
+.avatar-stage{overflow:visible!important}
+@media(max-width:760px){
+ .icon,.avatar-stand{width:56px!important;height:56px!important;min-width:56px!important;min-height:56px!important;max-width:56px!important;max-height:56px!important;flex-basis:56px!important}
+ .mission-avatar{width:64px!important;height:82px!important;max-width:64px!important;max-height:82px!important}
+}
+</style>
+
+
+<style id="backup-question-slide-style">
+.backup-set{justify-content:flex-start!important;padding-top:4vh!important;padding-bottom:11vh!important;gap:8px!important}
+.backup-set h2{margin-bottom:0!important}
+.backup-set .lead{margin:0 0 6px!important}
+.backup-set .grid2{gap:10px!important;align-items:stretch!important}
+.backup-set .panel{padding:12px 16px!important;border-radius:17px!important}
+.backup-set .panel h3{font-size:clamp(16px,1.55vw,21px)!important;margin:4px 0 6px!important}
+.backup-set .panel p{font-size:clamp(12px,1.1vw,15px)!important;line-height:1.38!important;margin:4px 0!important}
+.backup-set .tag{font-size:10px!important;letter-spacing:.1em!important}
+.backup-set .code{padding:10px 14px!important;margin:0!important}
+.backup-set .code pre{font-size:clamp(11px,1vw,14px)!important;line-height:1.35!important;margin:4px 0!important;white-space:pre-wrap}
+.answer-key{background:#fff;border:3px solid #fff;border-radius:14px;padding:8px 14px;box-shadow:0 4px 0 #a4cce1;margin-top:5px;color:#24496d}
+.answer-key summary{cursor:pointer;font-weight:1000;color:#1769b0;font-size:13px}
+.answer-key p{font-size:12px!important;line-height:1.4!important;margin:7px 0 0!important}
+@media(max-width:760px){
+ .backup-set{overflow:auto!important;padding-top:3vh!important}
+ .backup-set .grid2{grid-template-columns:1fr!important}
+ .backup-set .panel{padding:10px 12px!important}
+ .backup-set .panel p{font-size:12px!important}
+}
+</style>
+
+</head><body><div id="deck">
+<section class="slide dark hero active"><div class="eyebrow anim">ASAS SAINS KOMPUTER · TINGKATAN 1 · 1 AMANAH</div><h1 class="anim">ALGORITHM <span>MISSION</span></h1><p class="lead anim">Operasi Struktur Kawalan Pelbagai Pilihan</p><div class="pill anim">🚀 Misi pembelajaran bermula sekarang</div><div class="small" style="position:absolute;right:6vw;top:4vh">BAB 3 · 3.1 PEMBANGUNAN ALGORITMA</div></section>
+<section class="slide bluebg"><div class="eyebrow">01 · TAKLIMAT MISI</div><h2>Misi kita hari ini</h2><p class="lead">Menulis pseudokod dan melukis carta alir pelbagai pilihan dalam penyelesaian masalah.</p><div class="grid3"><div class="panel tintb anim"><div class="icon">📘</div><h3>Bab 3</h3><p class="cardtext">Algoritma</p></div><div class="panel tintp anim"><div class="icon">🧠</div><h3>3.1</h3><p class="cardtext">Pembangunan Algoritma</p></div><div class="panel tinty anim"><div class="icon">🎯</div><h3>SP 3.1.1</h3><p class="cardtext">Pseudokod dan carta alir pelbagai pilihan</p></div></div></section>
+<section class="slide"><div class="eyebrow">02 · OBJEKTIF PEMBELAJARAN</div><h2>Selepas pembelajaran, murid dapat…</h2><div class="grid2"><div class="panel tintb anim"><div class="icon">🔀</div><h3>Memahami pilihan</h3><p class="cardtext">Menjelaskan struktur kawalan pelbagai pilihan.</p></div><div class="panel tinty anim"><div class="icon">🧩</div><h3>Mengenal pasti</h3><p class="cardtext">Memadankan syarat dengan tindakan.</p></div><div class="panel tintp anim"><div class="icon">⌨️</div><h3>Menulis pseudokod</h3><p class="cardtext">Membina pseudokod berdasarkan masalah.</p></div><div class="panel tintg anim"><div class="icon">📊</div><h3>Melukis carta alir</h3><p class="cardtext">Mewakilkan algoritma menggunakan simbol carta alir.</p></div></div></section>
+<section class="slide warm"><div class="eyebrow">03 · KONSEP ASAS</div><h2>Apakah algoritma?</h2><div class="grid2"><div><p class="lead">Algoritma ialah satu set langkah yang disusun mengikut urutan untuk menyelesaikan sesuatu masalah.</p><div class="callout">Algoritma membantu menentukan tindakan yang perlu dilakukan, langkah demi langkah.</div></div><div class="panel anim" style="text-align:center"><div style="font-size:55px">🧑‍🍳 ➜ 🥣 ➜ 🍳 ➜ 🍽️</div><h3>Contoh urutan tindakan</h3><p class="cardtext">Sediakan bahan → Masak → Hidangkan</p></div></div></section>
+<section class="slide"><div class="eyebrow">04 · STRUKTUR KAWALAN PILIHAN</div><h2>Tiga jenis struktur kawalan pilihan</h2><div class="grid3"><div class="panel tintb anim"><div class="icon">1️⃣</div><h3>Pilihan tunggal</h3><p class="cardtext">Satu syarat diuji. Tindakan dilaksanakan apabila syarat benar.</p></div><div class="panel tinty anim"><div class="icon">↔️</div><h3>Dwipilihan</h3><p class="cardtext">Dua tindakan dipilih berdasarkan benar atau palsu.</p></div><div class="panel tintp anim"><div class="icon">🔀</div><h3>Pelbagai pilihan</h3><p class="cardtext">Lebih daripada dua set tindakan berlainan sebagai pilihan.</p></div></div></section>
+<section class="slide bluebg"><div class="eyebrow">05 · FOKUS PEMBELAJARAN</div><h2>Struktur kawalan pelbagai pilihan</h2><p class="lead">Mengandungi lebih daripada dua set tindakan yang berlainan sebagai pilihan untuk dilaksanakan.</p><p>Set tindakan yang dilaksanakan bergantung kepada pilihan syarat yang didapati benar.</p><div class="grid4"><div class="panel tintb anim"><span class="pill">SYARAT 1</span><h3>Benar?</h3><p class="cardtext">Set tindakan A</p></div><div class="panel tinty anim"><span class="pill">SYARAT 2</span><h3>Benar?</h3><p class="cardtext">Set tindakan B</p></div><div class="panel tintp anim"><span class="pill">SYARAT 3</span><h3>Benar?</h3><p class="cardtext">Set tindakan C</p></div><div class="panel tintg anim"><span class="pill">JIKA TIDAK</span><h3>Tiada syarat benar</h3><p class="cardtext">Set tindakan D</p></div></div><p class="small">Rujukan: Buku Teks ASK Tingkatan 1, Rajah 3.12, muka surat 76.</p></section>
+<section class="slide dark"><div class="eyebrow">06 · CONTOH BUKU TEKS</div><h2>Struktur pseudokod</h2><div class="code anim"><span class="kw">JIKA</span> memenuhi syarat 1
+    <span class="act">LAKSANAKAN Set tindakan A</span>
+
+<span class="kw">JIKA</span> memenuhi syarat 2
+    <span class="act">LAKSANAKAN Set tindakan B</span>
+
+<span class="kw">JIKA</span> memenuhi syarat 3
+    <span class="act">LAKSANAKAN Set tindakan C</span>
+
+<span class="kw">JIKA TIDAK</span>
+    <span class="act">LAKSANAKAN Set tindakan D</span>
+
+<span class="kw">TAMAT JIKA</span></div><p class="small">Susunan berdasarkan Rajah 3.12, muka surat 76.</p></section>
+<section class="slide"><div class="eyebrow">07 · IKUTI ALIRAN KEPUTUSAN</div><h2>Bagaimana syarat diuji?</h2><div class="grid2"><div class="panel tintb anim"><span class="pill">LANGKAH 1</span><h3>Uji syarat 1</h3><p class="cardtext">YA → tindakan A. TIDAK → syarat 2.</p></div><div class="panel tinty anim"><span class="pill">LANGKAH 2</span><h3>Uji syarat 2</h3><p class="cardtext">YA → tindakan B. TIDAK → syarat 3.</p></div><div class="panel tintp anim"><span class="pill">LANGKAH 3</span><h3>Uji syarat 3</h3><p class="cardtext">YA → tindakan C.</p></div><div class="panel tintg anim"><span class="pill">JIKA SEMUA TIDAK</span><h3>Tindakan D</h3><p class="cardtext">Laksanakan tindakan D sebagai pilihan terakhir.</p></div></div></section>
+<section class="slide bluebg"><div class="eyebrow">08 · CARTA ALIR BUKU TEKS</div><h2>Rajah 3.13 — Struktur pelbagai pilihan</h2><div class="diagram anim"><svg class="flow" viewBox="0 0 1000 590" role="img" aria-label="Carta alir tiga keputusan berurutan">
+<defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0 0L0 6L8 3z" fill="#51627d"/></marker></defs>
+<path class="p" marker-end="url(#ar)" d="M270 70V105 M270 185V220 M270 300V335 M270 415V490H610 M370 145H610 M370 260H610 M370 375H610 M730 145H850V535H270V550 M730 260H850 M730 375H850 M730 490H850"/>
+<rect class="t" x="190" y="15" width="160" height="55" rx="27"/><text x="270" y="50" text-anchor="middle">MULA</text>
+<polygon class="d" points="270,105 370,145 270,185 170,145"/><text x="270" y="151" text-anchor="middle">Syarat 1?</text>
+<polygon class="d" points="270,220 370,260 270,300 170,260"/><text x="270" y="266" text-anchor="middle">Syarat 2?</text>
+<polygon class="d" points="270,335 370,375 270,415 170,375"/><text x="270" y="381" text-anchor="middle">Syarat 3?</text>
+<rect class="a" x="610" y="118" width="120" height="54" rx="12"/><text x="670" y="151" text-anchor="middle">Tindakan A</text>
+<rect class="a" x="610" y="233" width="120" height="54" rx="12"/><text x="670" y="266" text-anchor="middle">Tindakan B</text>
+<rect class="a" x="610" y="348" width="120" height="54" rx="12"/><text x="670" y="381" text-anchor="middle">Tindakan C</text>
+<rect class="a" x="610" y="463" width="120" height="54" rx="12"/><text x="670" y="496" text-anchor="middle">Tindakan D</text>
+<text class="branch" x="400" y="132">YA</text><text class="branch" x="282" y="207">TIDAK</text><text class="branch" x="400" y="247">YA</text><text class="branch" x="282" y="322">TIDAK</text><text class="branch" x="400" y="362">YA</text><text class="branch" x="282" y="440">TIDAK</text>
+<rect class="t" x="190" y="550" width="160" height="38" rx="19"/><text x="270" y="575" text-anchor="middle">TAMAT</text>
+<path class="trace" d="M270 70V145H370H610M730 145H850V535H270V550"/>
+</svg></div><button class="ctrl" style="background:#3a86ff;border:0;margin-top:10px" onclick="trace()">▶ Lihat aliran</button><p class="small">Susunan keputusan dirujuk kepada Rajah 3.13, muka surat 76. Cabang TIDAK meneruskan semakan; YA menuju tindakan masing-masing.</p></section>
+<section class="slide"><div class="eyebrow">09 · CONTOH BUKU TEKS</div><h2>Menentukan gred murid</h2><div class="grid2"><div><p class="lead">Skor yang dimasukkan menentukan gred melalui lima syarat berurutan: skor ≥ 80, ≥ 70, ≥ 60, ≥ 50 dan ≥ 40. Jika semuanya tidak dipenuhi, gred ialah F.</p><table><thead><tr><th>Gred</th><th>Skor</th></tr></thead><tbody><tr><td>A</td><td>80–100</td></tr><tr><td>B</td><td>70–79</td></tr><tr><td>C</td><td>60–69</td></tr><tr><td>D</td><td>50–59</td></tr><tr><td>E</td><td>40–49</td></tr><tr><td>F</td><td>0–39</td></tr></tbody></table></div><div class="panel tinty anim"><div class="icon">🏅</div><h3>Contoh skor: 90</h3><p class="cardtext">Skor 90 memenuhi syarat skor ≥ 80.</p><div class="result">GRED A</div></div></div><p class="small">Jadual 3.2 dan Rajah 3.14, muka surat 77.</p></section>
+<section class="slide bluebg"><div class="eyebrow">10 · CARTA ALIR BUKU TEKS</div><h2>Penentuan gred — lima syarat</h2><div class="diagram"><svg class="flow" viewBox="0 0 1000 760" role="img" aria-label="Carta alir penentuan gred: MULA, masukkan skor, lima keputusan berurutan, tindakan gred A hingga F, paparkan gred dan TAMAT">
+<defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0 0L0 6L8 3z" fill="#51627d"/></marker></defs>
+<path class="p" marker-end="url(#ar2)" d="M250 45V65 M250 105V120 M250 180V210 M250 270V300 M250 360V390 M250 450V480 M250 540V590H610 M350 150H610 M350 240H610 M350 330H610 M350 420H610 M350 510H610 M750 150H850V680H580 M750 240H850 M750 330H850 M750 420H850 M750 510H850 M750 590H850 M500 700V720"/>
+<rect class="t" x="170" y="5" width="160" height="40" rx="20"/><text x="250" y="31" text-anchor="middle">MULA</text>
+<polygon class="p" points="190,65 330,65 350,105 210,105"/><text x="270" y="91" text-anchor="middle">Masukkan skor</text>
+<polygon class="d" points="250,120 350,150 250,180 150,150"/><text x="250" y="156" text-anchor="middle">Skor ≥ 80?</text>
+<polygon class="d" points="250,210 350,240 250,270 150,240"/><text x="250" y="246" text-anchor="middle">Skor ≥ 70?</text>
+<polygon class="d" points="250,300 350,330 250,360 150,330"/><text x="250" y="336" text-anchor="middle">Skor ≥ 60?</text>
+<polygon class="d" points="250,390 350,420 250,450 150,420"/><text x="250" y="426" text-anchor="middle">Skor ≥ 50?</text>
+<polygon class="d" points="250,480 350,510 250,540 150,510"/><text x="250" y="516" text-anchor="middle">Skor ≥ 40?</text>
+<rect class="a" x="610" y="130" width="140" height="40" rx="10"/><text x="680" y="156" text-anchor="middle">Gred A</text>
+<rect class="a" x="610" y="220" width="140" height="40" rx="10"/><text x="680" y="246" text-anchor="middle">Gred B</text>
+<rect class="a" x="610" y="310" width="140" height="40" rx="10"/><text x="680" y="336" text-anchor="middle">Gred C</text>
+<rect class="a" x="610" y="400" width="140" height="40" rx="10"/><text x="680" y="426" text-anchor="middle">Gred D</text>
+<rect class="a" x="610" y="490" width="140" height="40" rx="10"/><text x="680" y="516" text-anchor="middle">Gred E</text>
+<rect class="a" x="610" y="570" width="140" height="40" rx="10"/><text x="680" y="596" text-anchor="middle">Gred F</text>
+<text class="branch" x="390" y="140">YA</text><text class="branch" x="260" y="198">TIDAK</text>
+<text class="branch" x="390" y="230">YA</text><text class="branch" x="260" y="288">TIDAK</text>
+<text class="branch" x="390" y="320">YA</text><text class="branch" x="260" y="378">TIDAK</text>
+<text class="branch" x="390" y="410">YA</text><text class="branch" x="260" y="468">TIDAK</text>
+<text class="branch" x="390" y="500">YA</text><text class="branch" x="260" y="558">TIDAK</text>
+<polygon class="p" points="420,660 580,660 600,700 440,700"/><text x="510" y="685" text-anchor="middle">PAPARKAN Gred</text>
+<rect class="t" x="430" y="720" width="160" height="35" rx="17"/><text x="510" y="743" text-anchor="middle">TAMAT</text>
+</svg></div><p class="small">Logik syarat dan operator ≥ mengikut Rajah 3.14–3.15, muka surat 77.</p></section>
+<section class="slide warm"><div class="eyebrow">11 · SIMULATOR</div><h2>Cuba tentukan gred</h2><div class="grid2"><div class="panel anim"><h3>Masukkan skor murid</h3><input id="score" type="number" min="0" max="100" value="90"><button class="ctrl" style="background:#3a86ff;border:0" onclick="grade()">Semak</button><p class="small">Masukkan nombor antara 0 hingga 100.</p></div><div class="panel tintg anim"><span class="pill">OUTPUT ALGORITMA</span><div id="gradeResult" class="result">GRED A</div><p id="gradeExplain" class="cardtext">Skor 90 memenuhi syarat skor ≥ 80.</p></div></div></section>
+<section class="slide"><div class="eyebrow">12 · AKTIVITI APLIKASI GURU</div><h2>Empat misi berkumpulan</h2><p class="lead">Gunakan struktur pelbagai pilihan yang sama untuk menyelesaikan situasi setiap kumpulan.</p><div class="grid4"><div class="panel tintb anim"><div class="icon">⚽</div><span class="tag">KUMPULAN 1</span><h3>Football Legends</h3></div><div class="panel tinty anim"><div class="icon">🧗</div><span class="tag">KUMPULAN 2</span><h3>Obby Adventure</h3></div><div class="panel tintp anim"><div class="icon">🐾</div><span class="tag">KUMPULAN 3</span><h3>Pet Simulator</h3></div><div class="panel tintg anim"><div class="icon">🍕</div><span class="tag">KUMPULAN 4</span><h3>Pizza Tycoon</h3></div></div></section>
+<section class="slide bluebg"><div class="eyebrow">13 · MISI KUMPULAN 1</div><h2>Football Legends ⚽</h2><span class="pill">INPUT: keadaan_serangan</span><table><thead><tr><th>Syarat</th><th>Tindakan</th></tr></thead><tbody><tr><td>rakan sepasukan bebas</td><td>HANTAR BOLA</td></tr><tr><td>ruang terbuka ke arah gol</td><td>REMBAT</td></tr><tr><td>pemain lawan menghalang laluan</td><td>MENGGELECEK</td></tr><tr><td>keadaan lain</td><td>HANTAR BOLA KE BELAKANG</td></tr></tbody></table></section>
+<section class="slide warm"><div class="eyebrow">14 · MISI KUMPULAN 2</div><h2>Obby Adventure 🧗</h2><span class="pill">INPUT: jenis_halangan</span><table><thead><tr><th>Syarat</th><th>Tindakan</th></tr></thead><tbody><tr><td>jurang</td><td>LOMPAT</td></tr><tr><td>tembok</td><td>PANJAT</td></tr><tr><td>laluan dipenuhi lava</td><td>CARI LALUAN SELAMAT</td></tr><tr><td>halangan lain</td><td>BERHENTI DAN TUNGGU</td></tr></tbody></table></section>
+<section class="slide"><div class="eyebrow">15 · MISI KUMPULAN 3</div><h2>Pet Simulator 🐾</h2><span class="pill">INPUT: keadaan_pet</span><table><thead><tr><th>Syarat</th><th>Tindakan</th></tr></thead><tbody><tr><td>lapar</td><td>BERI MAKANAN</td></tr><tr><td>haus</td><td>BERI AIR</td></tr><tr><td>letih</td><td>REHATKAN PET</td></tr><tr><td>keadaan lain</td><td>BERMAIN DENGAN PET</td></tr></tbody></table></section>
+<section class="slide bluebg"><div class="eyebrow">16 · MISI KUMPULAN 4</div><h2>Pizza Tycoon 🍕</h2><span class="pill">INPUT: jenis_pesanan</span><table><thead><tr><th>Syarat</th><th>Tindakan</th></tr></thead><tbody><tr><td>keju</td><td>SEDIAKAN PIZZA KEJU</td></tr><tr><td>ayam</td><td>SEDIAKAN PIZZA AYAM</td></tr><tr><td>daging</td><td>SEDIAKAN PIZZA DAGING</td></tr><tr><td>jenis pesanan lain</td><td>SEDIAKAN PIZZA SAYUR</td></tr></tbody></table></section>
+<section class="slide"><div class="eyebrow">17 · SEMAK KEFAHAMAN</div><h2>Uji pengetahuan anda</h2><div class="panel"><h3 id="q">Apabila syarat pertama tidak dipenuhi, apakah yang berlaku?</h3><div id="answers"><button class="choice" onclick="answer(0)">A. Algoritma terus tamat</button><button class="choice" onclick="answer(1)">B. Aliran bergerak ke syarat seterusnya</button><button class="choice" onclick="answer(2)">C. Semua tindakan dilaksanakan</button></div><div id="fb" class="feedback"></div><button id="qnext" class="ctrl" style="display:none;background:#3a86ff;border:0" onclick="nextQ()">Soalan seterusnya →</button></div></section>
+<section class="slide dark"><div class="eyebrow">18 · RUMUSAN</div><h2>Ingat empat perkara ini</h2><div class="grid2"><div class="panel anim"><h3>01 · Lebih dua pilihan</h3><p class="cardtext">Pelbagai pilihan mempunyai lebih daripada dua set tindakan.</p></div><div class="panel anim"><h3>02 · Syarat diuji</h3><p class="cardtext">Syarat dinilai mengikut urutan.</p></div><div class="panel anim"><h3>03 · Tindakan sepadan</h3><p class="cardtext">Tindakan dilaksanakan apabila syarat benar.</p></div><div class="panel anim"><h3>04 · Dua perwakilan</h3><p class="cardtext">Pseudokod dan carta alir mewakili logik yang sama.</p></div></div></section>
+<section class="slide dark hero"><div class="eyebrow">OPERASI BERJAYA</div><h1>MISSION <span>COMPLETED!</span></h1><p class="lead">Tahniah, Ejen Algoritma. Setiap keputusan bermula dengan logik yang betul.</p><div class="pill">ASK TINGKATAN 1 · 1 AMANAH</div></section>
+
+<section class="slide bluebg backup-set">
+ <div class="eyebrow">BONUS MISSION 01 · BACKUP CHALLENGE</div>
+ <h2>Algorithm Rookie</h2>
+ <p class="lead">Uji kefahaman asas tentang struktur kawalan pelbagai pilihan.</p>
+ <div class="grid2">
+  <div class="panel tintb"><div class="tag">SOALAN 1 · 1 MARKAH</div><h3>Apakah maksud struktur kawalan pelbagai pilihan?</h3><p class="cardtext">A. Arahan dilaksanakan berulang kali<br>B. Memilih tindakan berdasarkan beberapa syarat<br>C. Arahan mengikut turutan sahaja<br>D. Mengulangi arahan sehingga syarat dipenuhi</p></div>
+  <div class="panel tintp"><div class="tag">SOALAN 2 · 1 MARKAH</div><h3>Apakah fungsi ELSE?</h3><p class="cardtext">A. Mengulangi arahan<br>B. Menamatkan program<br>C. Melaksanakan tindakan apabila syarat sebelumnya tidak dipenuhi<br>D. Memasukkan data</p></div>
+  <div class="panel tintg"><div class="tag">SOALAN 3 · 1 MARKAH</div><h3>Berapakah laluan tindakan dalam pseudokod yang mempunyai IF, ELSE IF dan ELSE?</h3><p class="cardtext">A. Satu &nbsp; B. Dua &nbsp; C. Tiga &nbsp; D. Empat</p></div>
+  <div class="panel tinty"><div class="tag">SOALAN 4 · 1 MARKAH</div><h3>Nyatakan satu perbezaan pseudokod dengan carta alir.</h3><p class="cardtext">Jawab secara ringkas.</p></div>
+ </div>
+ <div class="panel" style="margin-top:14px"><div class="tag">SOALAN 5 · 1 MARKAH</div><h3>Mengapakah struktur pelbagai pilihan sesuai untuk menentukan gred murid?</h3></div>
+ <details class="answer-key"><summary>🔑 Paparkan skema jawapan guru</summary><p>1. B · 2. C · 3. C · 4. Pseudokod menggunakan arahan bertulis, carta alir menggunakan simbol dan anak panah. · 5. Markah dibandingkan dengan beberapa julat untuk menentukan satu gred.</p></details>
+</section>
+<section class="slide warm backup-set">
+ <div class="eyebrow">BONUS MISSION 02 · DETECTIVE MODE</div>
+ <h2>Algorithm Detective</h2>
+ <p class="lead">Baca algoritma. Ramalkan output bagi setiap input.</p>
+ <div class="grid2">
+  <div class="code"><div class="tag">ALGORITMA SUHU</div><pre>INPUT suhu
+IF suhu >= 35
+  OUTPUT "PANAS"
+ELSE IF suhu >= 25
+  OUTPUT "SEDERHANA"
+ELSE
+  OUTPUT "SEJUK"
+END IF</pre></div>
+  <div class="panel tintb"><div class="tag">SOALAN 1–3 · 3 MARKAH</div><h3>Apakah output bagi input berikut?</h3><p class="cardtext">1. suhu = 28<br>2. suhu = 20<br>3. suhu = 35</p></div>
+  <div class="panel tintp"><div class="tag">SOALAN 4 · 2 MARKAH</div><h3>Mengapakah syarat suhu ≥ 35 diperiksa dahulu sebelum suhu ≥ 25?</h3><p class="cardtext">Terangkan berdasarkan susunan syarat.</p></div>
+  <div class="panel tintg"><div class="tag">SOALAN 5 · 3 MARKAH</div><h3>Tentukan gred bagi markah 75, 55 dan 30.</h3><p class="cardtext">A ≥ 80 · B ≥ 60 · C ≥ 40 · F selainnya</p></div>
+ </div>
+ <details class="answer-key"><summary>🔑 Paparkan skema jawapan guru</summary><p>1. SEDERHANA · 2. SEJUK · 3. PANAS. Soalan 4: Syarat tertinggi diperiksa dahulu supaya nilai yang memenuhi syarat itu tidak tersalah dikelaskan oleh syarat yang lebih rendah. Soalan 5: 75 = B, 55 = C, 30 = F.</p></details>
+</section>
+<section class="slide bluebg backup-set">
+ <div class="eyebrow">BONUS MISSION 03 · BUILDER MODE</div>
+ <h2>Algorithm Builder</h2>
+ <p class="lead">Bina penyelesaian menggunakan pseudokod dan carta alir.</p>
+ <div class="grid2">
+  <div class="panel tinty"><div class="tag">TUGASAN 1</div><h3>Sistem Lampu Isyarat</h3><p class="cardtext">Input <b>warna</b>:<br>MERAH → BERHENTI<br>KUNING → BERSIAP<br>HIJAU → JALAN<br>Warna lain → INPUT TIDAK SAH</p><p><b>Tulis pseudokod.</b></p></div>
+  <div class="panel tintb"><div class="tag">TUGASAN 2</div><h3>Sistem Pengangkutan</h3><p class="cardtext">Input <b>jenis_pengangkutan</b>:<br>BAS → PENGANGKUTAN AWAM<br>KERETA → KENDERAAN PERSENDIRIAN<br>BASIKAL → PENGANGKUTAN AKTIF<br>Selainnya → PILIHAN TIDAK DIKENALI</p><p><b>Lukis carta alir.</b></p></div>
+  <div class="panel tintp" style="grid-column:1/-1"><div class="tag">TUGASAN 3 · DEBUGGING</div><h3>Kenal pasti kesilapan dan tulis semula dengan betul.</h3><div class="code"><pre>INPUT markah
+IF markah >= 80
+  OUTPUT "A"
+ELSE
+  OUTPUT "B"
+ELSE IF markah >= 50
+  OUTPUT "C"
+END IF</pre></div></div>
+ </div>
+ <details class="answer-key"><summary>🔑 Paparkan panduan jawapan guru</summary><p>Tugasan 1: IF warna = "MERAH", ELSE IF warna = "KUNING", ELSE IF warna = "HIJAU", ELSE paparkan "INPUT TIDAK SAH", kemudian END IF. Tugasan 2: MULA → input jenis_pengangkutan → tiga keputusan mengikut pilihan → tindakan alternatif → TAMAT. Tugasan 3: ELSE tidak boleh diletakkan sebelum ELSE IF. Susun semua ELSE IF dahulu dan letakkan ELSE sebagai pilihan terakhir. Contoh: markah ≥ 80 → A, markah ≥ 50 → C, selainnya → B (atau tetapkan kategori yang dikehendaki sebelum membina algoritma).</p></details>
+</section>
+<section class="slide warm backup-set">
+ <div class="eyebrow">BONUS MISSION 04 · BOSS CHALLENGE</div>
+ <h2>Boss Challenge</h2>
+ <p class="lead">Analisis, kesan ralat dan pertahankan keputusan algoritma.</p>
+ <div class="grid2">
+  <div class="panel tintb"><div class="tag">CABARAN 1 · 3 MARKAH</div><h3>Algoritma siapakah lebih tepat?</h3><div class="code"><pre>MURID A
+IF markah >= 50
+ OUTPUT "LULUS"
+ELSE IF markah >= 80
+ OUTPUT "CEMERLANG"
+ELSE
+ OUTPUT "GAGAL"
+END IF</pre></div></div>
+  <div class="panel tintp"><div class="tag">BANDINGKAN DENGAN MURID B</div><div class="code"><pre>MURID B
+IF markah >= 80
+ OUTPUT "CEMERLANG"
+ELSE IF markah >= 50
+ OUTPUT "LULUS"
+ELSE
+ OUTPUT "GAGAL"
+END IF</pre></div><p class="cardtext">Pilih algoritma yang tepat dan jelaskan sebabnya.</p></div>
+  <div class="panel tintg"><div class="tag">CABARAN 2 · 4 MARKAH</div><h3>Cipta algoritma ganjaran permainan.</h3><p class="cardtext">100 mata ke atas → 3 bintang<br>70–99 mata → 2 bintang<br>40–69 mata → 1 bintang<br>Kurang 40 mata → Tiada bintang</p><p><b>Bina pseudokod dan carta alir.</b></p></div>
+  <div class="panel tinty"><div class="tag">CABARAN 3 · 3 MARKAH</div><h3>Mengapakah ELSE diperlukan?</h3><p class="cardtext">Jelaskan fungsi tindakan alternatif dan kemungkinan yang berlaku jika ELSE tidak disediakan.</p></div>
+ </div>
+ <details class="answer-key"><summary>🔑 Paparkan skema jawapan guru</summary><p>1. Murid B. Syarat ≥ 80 perlu diuji dahulu. Dalam algoritma A, markah 80 ke atas sudah memenuhi ≥ 50, maka output CEMERLANG tidak akan dicapai. 2. INPUT mata → IF mata ≥ 100 OUTPUT 3 BINTANG → ELSE IF mata ≥ 70 OUTPUT 2 BINTANG → ELSE IF mata ≥ 40 OUTPUT 1 BINTANG → ELSE OUTPUT TIADA BINTANG → END IF. Carta alir mengikut urutan sama. 3. ELSE menyediakan tindakan alternatif apabila semua syarat terdahulu tidak dipenuhi. Tanpanya, keadaan tersebut mungkin tidak mempunyai tindakan yang ditetapkan.</p></details>
+</section>
+
+<div class="controls"><div class="progress"><span id="bar"></span></div><button class="ctrl" id="prev" onclick="move(-1)">←</button><button class="ctrl" id="next" onclick="move(1)">Seterusnya →</button><div class="counter" id="count"></div><div class="spacer"></div><span class="hint">← → navigasi · F fullscreen · Home mula</span><button class="ctrl" onclick="full()">⛶ Fullscreen</button></div>
+</div><script>
+const S=[...document.querySelectorAll('.slide')];let i=0,lock=false;function update(){document.getElementById('count').textContent=String(i+1).padStart(2,'0')+' / '+S.length;document.getElementById('bar').style.width=(100*(i+1)/S.length)+'%';document.getElementById('prev').disabled=i===0;document.getElementById('next').disabled=i===S.length-1}
+function show(n,d){if(n<0||n>=S.length||lock)return;lock=true;let old=S[i];old.classList.remove('active');old.classList.toggle('left',d>0);i=n;S[i].classList.remove('left');S[i].style.transform=d>0?'translateX(5%)':'translateX(-5%)';requestAnimationFrame(()=>{S[i].classList.add('active');S[i].style.transform=''});update();setTimeout(()=>{old.classList.remove('left');lock=false},620)}
+function move(d){show(i+d,d)}document.addEventListener('keydown',e=>{if(['ArrowRight',' ','PageDown'].includes(e.key)){e.preventDefault();move(1)}else if(['ArrowLeft','PageUp'].includes(e.key)){e.preventDefault();move(-1)}else if(e.key.toLowerCase()==='f')full();else if(e.key==='Home')show(0,-1);else if(e.key==='End')show(S.length-1,1)});
+function full(){if(!document.fullscreenElement)document.documentElement.requestFullscreen?.();else document.exitFullscreen?.()}
+function trace(){let x=document.querySelector('.flow');x.classList.remove('tracing');void x.offsetWidth;x.classList.add('tracing');setTimeout(()=>x.classList.remove('tracing'),4000)}
+function grade(){let v=Number(document.getElementById('score').value),r=document.getElementById('gradeResult'),e=document.getElementById('gradeExplain');if(!Number.isInteger(v)||v<0||v>100){r.textContent='SKOR TIDAK SAH';e.textContent='Masukkan skor antara 0 hingga 100.';return}let g=v>=80?'A':v>=70?'B':v>=60?'C':v>=50?'D':v>=40?'E':'F';r.textContent='GRED '+g;e.textContent=g==='F'?`Skor ${v} tidak memenuhi syarat skor ≥ 40. Gred ialah F.`:`Skor ${v} memenuhi syarat skor ≥ ${({A:80,B:70,C:60,D:50,E:40})[g]}. Gred ialah ${g}.`}
+const Q=[{q:'Apabila syarat pertama tidak dipenuhi, apakah yang berlaku?',a:['Algoritma terus tamat','Aliran bergerak ke syarat seterusnya','Semua tindakan dilaksanakan'],c:1,w:'Cabang TIDAK meneruskan aliran kepada syarat berikutnya.'},{q:'Berapakah bilangan set tindakan dalam struktur pelbagai pilihan?',a:['Satu sahaja','Dua sahaja','Lebih daripada dua'],c:2,w:'Struktur ini mempunyai lebih daripada dua set tindakan.'},{q:'Skor 75 memperoleh gred apakah?',a:['A','B','C'],c:1,w:'75 memenuhi syarat skor ≥ 70 selepas tidak memenuhi ≥ 80.'},{q:'Jika semua syarat tidak dipenuhi, tindakan manakah dilaksanakan?',a:['Tindakan terakhir selepas JIKA TIDAK','Ulang syarat pertama','Semua tindakan'],c:0,w:'Pilihan terakhir dilaksanakan apabila syarat sebelumnya tidak benar.'}];let qi=0;
+function answer(n){let q=Q[qi],[...b]=document.querySelectorAll('#answers button');b.forEach((x,j)=>{x.disabled=true;if(j===q.c)x.classList.add('correct');else if(j===n)x.classList.add('wrong')});document.getElementById('fb').textContent=(n===q.c?'Betul! ':'Belum tepat. ')+q.w;document.getElementById('qnext').style.display='inline-block'}
+function nextQ(){qi=(qi+1)%Q.length;let q=Q[qi];document.getElementById('q').textContent=q.q;document.getElementById('answers').innerHTML=q.a.map((x,j)=>`<button class="choice" onclick="answer(${j})">${'ABC'[j]}. ${x}</button>`).join('');document.getElementById('fb').textContent='';document.getElementById('qnext').style.display='none'}
+update();grade();
+</script>
+<script id="roblox-character-injector">
+(()=>{
+ const art={'football': '<svg viewBox="0 0 150 190" role="img" aria-label="Watak pemain bola blok"><ellipse cx="75" cy="180" rx="42" ry="7" fill="#15213a" opacity=".16"/><rect x="43" y="112" width="27" height="59" rx="8" fill="#243b76"/><rect x="80" y="112" width="27" height="59" rx="8" fill="#243b76"/><rect x="39" y="164" width="38" height="15" rx="6" fill="#f5f7ff"/><rect x="75" y="164" width="38" height="15" rx="6" fill="#f5f7ff"/><rect x="32" y="61" width="86" height="65" rx="13" fill="#2589df"/><rect x="22" y="67" width="17" height="52" rx="8" fill="#e8a878"/><rect x="111" y="67" width="17" height="52" rx="8" fill="#e8a878"/><rect x="45" y="17" width="61" height="55" rx="15" fill="#f0b889"/><path d="M43 42Q40 8 75 9Q110 9 109 43L101 33L94 25L53 30Z" fill="#4b3028"/><circle cx="64" cy="46" r="4" fill="#26334d"/><circle cx="88" cy="46" r="4" fill="#26334d"/><path d="M66 58Q76 67 87 58" fill="none" stroke="#9c5148" stroke-width="3" stroke-linecap="round"/><path d="M50 87L75 100L100 87" fill="none" stroke="#fff" stroke-width="5"/><circle cx="123" cy="143" r="19" fill="#fff"/><path d="M123 128l6 8-3 10h-8l-4-9z" fill="#25314d"/></svg>', 'obby': '<svg viewBox="0 0 150 190" role="img" aria-label="Watak pengembara blok"><ellipse cx="75" cy="180" rx="42" ry="7" fill="#15213a" opacity=".16"/><rect x="43" y="112" width="27" height="59" rx="8" fill="#38466c"/><rect x="80" y="112" width="27" height="59" rx="8" fill="#38466c"/><rect x="39" y="164" width="38" height="15" rx="6" fill="#ffca55"/><rect x="75" y="164" width="38" height="15" rx="6" fill="#ffca55"/><rect x="32" y="61" width="86" height="65" rx="13" fill="#20a88d"/><rect x="22" y="67" width="17" height="52" rx="8" fill="#c9875e"/><rect x="111" y="67" width="17" height="52" rx="8" fill="#c9875e"/><rect x="45" y="17" width="61" height="55" rx="15" fill="#d99b70"/><path d="M43 38Q44 7 76 8Q108 8 109 39L100 27L52 28Z" fill="#302c35"/><rect x="49" y="40" width="53" height="12" rx="6" fill="#f4c84c"/><circle cx="64" cy="47" r="3.5" fill="#26334d"/><circle cx="88" cy="47" r="3.5" fill="#26334d"/><path d="M66 59Q76 66 87 59" fill="none" stroke="#8b4d43" stroke-width="3" stroke-linecap="round"/><path d="M34 75L15 57L22 48L46 67M116 75L134 54L142 61L126 88" fill="none" stroke="#c9875e" stroke-width="11" stroke-linecap="round"/></svg>', 'pet': '<svg viewBox="0 0 150 190" role="img" aria-label="Watak penjaga haiwan blok"><ellipse cx="75" cy="180" rx="42" ry="7" fill="#15213a" opacity=".16"/><rect x="43" y="112" width="27" height="59" rx="8" fill="#704c9c"/><rect x="80" y="112" width="27" height="59" rx="8" fill="#704c9c"/><rect x="39" y="164" width="38" height="15" rx="6" fill="#fff0a8"/><rect x="75" y="164" width="38" height="15" rx="6" fill="#fff0a8"/><rect x="32" y="61" width="86" height="65" rx="13" fill="#9a70d7"/><rect x="22" y="67" width="17" height="52" rx="8" fill="#e8b68b"/><rect x="111" y="67" width="17" height="52" rx="8" fill="#e8b68b"/><rect x="45" y="17" width="61" height="55" rx="15" fill="#f0c49b"/><path d="M43 40Q40 9 76 8Q110 8 109 42L100 29L54 30Z" fill="#68412f"/><circle cx="64" cy="46" r="4" fill="#26334d"/><circle cx="88" cy="46" r="4" fill="#26334d"/><path d="M66 58Q76 67 87 58" fill="none" stroke="#a85b63" stroke-width="3" stroke-linecap="round"/><path d="M75 9l7-13 7 14" fill="#ffca55"/><path d="M115 132q14-17 27-2q-9 16-27 2" fill="#ffca55"/></svg>', 'pizza': '<svg viewBox="0 0 150 190" role="img" aria-label="Watak chef blok"><ellipse cx="75" cy="180" rx="42" ry="7" fill="#15213a" opacity=".16"/><rect x="43" y="112" width="27" height="59" rx="8" fill="#35425f"/><rect x="80" y="112" width="27" height="59" rx="8" fill="#35425f"/><rect x="39" y="164" width="38" height="15" rx="6" fill="#f6f6f2"/><rect x="75" y="164" width="38" height="15" rx="6" fill="#f6f6f2"/><rect x="32" y="61" width="86" height="65" rx="13" fill="#ef7659"/><rect x="22" y="67" width="17" height="52" rx="8" fill="#d99a70"/><rect x="111" y="67" width="17" height="52" rx="8" fill="#d99a70"/><rect x="45" y="17" width="61" height="55" rx="15" fill="#eab58d"/><path d="M43 31Q43 10 56 13Q65 -2 76 11Q93 -1 101 15Q112 14 109 34Z" fill="#fff"/><rect x="50" y="32" width="51" height="9" rx="4" fill="#fff"/><circle cx="64" cy="49" r="4" fill="#26334d"/><circle cx="88" cy="49" r="4" fill="#26334d"/><path d="M66 60Q76 67 87 60" fill="none" stroke="#9c5148" stroke-width="3" stroke-linecap="round"/><path d="M112 92l21-13 7 11-22 15" fill="none" stroke="#eab58d" stroke-width="10" stroke-linecap="round"/><path d="M128 70l13-4-5 15z" fill="#ffd166"/></svg>'};
+ const hero=document.querySelector('.slide.hero')||document.querySelector('.slide.dark');
+ if(hero){const a=document.createElement('div');a.className='avatar-stage';a.innerHTML=art.football;hero.appendChild(a);}
+ const missions=[['Football Legends','football'],['Obby Adventure','obby'],['Pet Simulator','pet'],['Pizza Tycoon','pizza']];
+ document.querySelectorAll('.slide').forEach(slide=>{
+   const heading=slide.querySelector('h2');
+   if(!heading)return;
+   const match=missions.find(([name])=>heading.textContent.includes(name));
+   if(match){
+     const a=document.createElement('div');a.className='mission-avatar';a.innerHTML=art[match[1]];
+     slide.appendChild(a);
+   }
+ });
+ const cards=document.querySelectorAll('.grid4 .panel');
+ cards.forEach((card,i)=>{
+   const key=['football','obby','pet','pizza'][i];
+   const old=card.querySelector('.icon');
+   if(old){old.innerHTML='';old.classList.add('avatar-stand');old.innerHTML='<span class="avatar-mini">'+art[key]+'</span>';}
+ });
+})();
+</script>
+
+
+<script id="replace-emoji-with-original-svg-art">
+(()=>{
+ const icon=(body,view='0 0 64 64')=>`<span class="art-icon" aria-hidden="true"><svg viewBox="${view}" xmlns="http://www.w3.org/2000/svg">${body}</svg></span>`;
+ const art={
+  '🚀':icon('<path class="blue" d="M32 5C19 15 17 31 20 42l12 10 12-10C47 29 45 15 32 5Z"/><path class="stroke" d="M32 5C19 15 17 31 20 42l12 10 12-10C47 29 45 15 32 5Z"/><circle class="yellow" cx="32" cy="27" r="6"/><path class="coral" d="m20 37-10 9 12 1m22-10 10 9-12 1"/><path class="yellow" d="m26 51 6 9 6-9"/>'),
+  '📘':icon('<path class="blue" d="M8 12q14-5 24 4v39Q21 47 8 52Z"/><path class="stroke" d="M8 12q14-5 24 4v39Q21 47 8 52Z"/><path class="white" d="M56 12q-14-5-24 4v39q11-8 24-3Z"/><path class="stroke" d="M56 12q-14-5-24 4v39q11-8 24-3Z"/>'),
+  '🧠':icon('<path class="purple" d="M31 12q-9-9-16 1-11 0-9 13-7 10 2 17-1 12 12 12 6 7 13 1V15Z"/><path class="coral" d="M33 13q9-10 16 0 11 1 9 13 7 10-2 17 1 12-12 12-6 7-13 1V15Z"/><path class="stroke" d="M32 13v42M17 20q8-2 8 7m-13 8q9-3 12 5m25-20q-8-2-8 7m13 8q-9-3-12 5"/>'),
+  '🎯':icon('<circle class="coral" cx="32" cy="32" r="27"/><circle class="white" cx="32" cy="32" r="18"/><circle class="blue" cx="32" cy="32" r="10"/><circle class="yellow" cx="32" cy="32" r="4"/><path class="stroke" d="m35 29 20-20m-8 0h8v8"/>'),
+  '🔀':icon('<path class="stroke" d="M10 15h8q7 0 12 9l8 16q5 9 12 9h5m-9-8 9 8-9 8M10 49h8q7 0 12-9l8-16q5-9 12-9h5m-9-8 9 8-9 8"/>'),
+  '🧩':icon('<path class="purple" d="M10 10h15q-2 10 7 10t7-10h15v16q-10-2-10 7t10 7v14H38q2-10-7-10t-7 10H10V39q10 2 10-7t-10-7Z"/><path class="stroke" d="M10 10h15q-2 10 7 10t7-10h15v16q-10-2-10 7t10 7v14H38q2-10-7-10t-7 10H10V39q10 2 10-7t-10-7Z"/>'),
+  '⌨️':icon('<rect class="blue" x="5" y="14" width="54" height="36" rx="6"/><rect class="white" x="11" y="20" width="7" height="6" rx="1"/><rect class="white" x="22" y="20" width="7" height="6" rx="1"/><rect class="white" x="33" y="20" width="7" height="6" rx="1"/><rect class="white" x="44" y="20" width="7" height="6" rx="1"/><path class="stroke" d="M12 33h40M21 41h22"/>'),
+  '📊':icon('<path class="stroke" d="M8 54h49"/><rect class="blue" x="12" y="32" width="9" height="22" rx="2"/><rect class="green" x="28" y="22" width="9" height="32" rx="2"/><rect class="coral" x="44" y="10" width="9" height="44" rx="2"/>'),
+  '🧑‍🍳':icon('<path class="skin" d="M22 28h20v24H22Z"/><path class="white" d="M14 24q-3-11 8-13 1-10 10-7 10-4 13 7 9 3 5 13Z"/><path class="stroke" d="M14 24q-3-11 8-13 1-10 10-7 10-4 13 7 9 3 5 13Z"/><path class="coral" d="M18 52h28v8H18Z"/>'),
+  '🥣':icon('<path class="yellow" d="M9 29h46q-2 24-23 24T9 29Z"/><path class="stroke" d="M9 29h46q-2 24-23 24T9 29Z"/><path class="stroke" d="M17 20q-5-8 2-12m13 12q-5-8 2-12m10 12q-5-8 2-12"/>'),
+  '🍳':icon('<path class="stroke" d="m42 39 15 13"/><path class="yellow" d="M7 39q2-18 25-18t25 18q-3 13-25 13T7 39Z"/><circle class="white" cx="32" cy="36" r="10"/><circle class="yellow" cx="32" cy="36" r="5"/>'),
+  '🍽️':icon('<path class="stroke" d="M9 8v20m-5-20v12q0 8 5 8t5-8V8m-5 20v28M43 8v48m0-48q14 7 14 20H43"/>'),
+  '1️⃣':icon('<rect class="blue" x="8" y="8" width="48" height="48" rx="12"/><path d="m25 25 8-7v29" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>'),
+  '↔️':icon('<path class="stroke" d="M7 22h50m-9-9 9 9-9 9M57 42H7m9-9-9 9 9 9"/>'),
+  '🏅':icon('<circle class="yellow" cx="32" cy="25" r="17"/><path class="stroke" d="M32 8v34m-17-17h34"/><path class="coral" d="m20 39-5 20 17-9 17 9-5-20"/>'),
+  '⚽':icon('<circle class="white" cx="32" cy="32" r="25"/><path class="stroke" d="m32 17 10 7-4 12H26l-4-12Zm-10 7-11-3m27 3 11-3M26 36l-8 12m20-12 8 12M32 17V7"/>'),
+  '🧗':icon('<circle class="skin" cx="38" cy="10" r="7"/><path class="blue" d="m32 19-9 13 9 8 8-11 8 7 5-6-13-13Z"/><path class="stroke" d="m32 19-9 13 9 8 8-11 8 7 5-6-13-13ZM31 38l-9 17m18-18 8 18M23 32 12 24"/>'),
+  '🐾':icon('<ellipse class="coral" cx="32" cy="43" rx="15" ry="12"/><ellipse class="coral" cx="14" cy="23" rx="6" ry="9" transform="rotate(-25 14 23)"/><ellipse class="coral" cx="28" cy="14" rx="6" ry="9"/><ellipse class="coral" cx="43" cy="15" rx="6" ry="9" transform="rotate(15 43 15)"/><ellipse class="coral" cx="54" cy="27" rx="6" ry="9" transform="rotate(25 54 27)"/>'),
+  '🍕':icon('<path class="yellow" d="M8 13q25-13 48 0L32 57Z"/><path class="stroke" d="M8 13q25-13 48 0L32 57Z"/><circle class="coral" cx="25" cy="25" r="4"/><circle class="coral" cx="40" cy="22" r="4"/><circle class="coral" cx="33" cy="39" r="4"/>')
+ };
+ const replacements=Object.keys(art).sort((a,b)=>b.length-a.length);
+ const walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);
+ const nodes=[];while(walker.nextNode())nodes.push(walker.currentNode);
+ nodes.forEach(node=>{
+   if(node.parentElement.closest('script,style,svg,.code'))return;
+   let value=node.nodeValue;
+   if(!replacements.some(k=>value.includes(k)))return;
+   const frag=document.createDocumentFragment();
+   while(value){
+     let best=null,pos=Infinity;
+     replacements.forEach(k=>{const i=value.indexOf(k);if(i>=0&&i<pos){pos=i;best=k}});
+     if(!best){frag.append(document.createTextNode(value));break;}
+     if(pos)frag.append(document.createTextNode(value.slice(0,pos)));
+     const wrap=document.createElement('span');wrap.innerHTML=art[best];frag.append(wrap.firstElementChild);
+     value=value.slice(pos+best.length);
+   }
+   node.replaceWith(frag);
+ });
+ // The four group mission tiles use the custom block-character illustrations already included.
+ const tiles=document.querySelectorAll('.grid4 .panel');
+ const avatarKeys=['football','obby','pet','pizza'];
+ const avatars=window.__missionAvatars;
+ if(avatars)tiles.forEach((tile,i)=>{
+   const target=tile.querySelector('.icon');
+   if(target&&avatars[avatarKeys[i]])target.innerHTML='<span class="avatar-mini">'+avatars[avatarKeys[i]]+'</span>';
+ });
+})();
+</script>
+
+</body></html>
